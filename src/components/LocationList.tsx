@@ -7,12 +7,12 @@ import { Weather } from '../store/weather/types'
 
 type LocationListProps = {
   weatherAndLocations?: Weather[];
+  onShowDetail?: (id: number) => void;
   onUpdateWeather?: (id: number) => void
   onDeleteWeather?: (id: number) => void
 }
 
-const LocationList: React.FC<LocationListProps> = ({ weatherAndLocations = [], onUpdateWeather, onDeleteWeather }) => {
-
+const LocationList: React.FC<LocationListProps> = ({ weatherAndLocations = [], onShowDetail, onUpdateWeather, onDeleteWeather }) => {
   if (weatherAndLocations.length === 0 || weatherAndLocations === undefined) {
     return <div>No Location Added</div>
   }
@@ -25,7 +25,7 @@ const LocationList: React.FC<LocationListProps> = ({ weatherAndLocations = [], o
       <div>
         {weatherAndLocations.map(item => (
           <ListItemLayout key={uniqid()}>
-            <DescriptionWrapper>
+            <DescriptionWrapper onClick={() => onShowDetail!(item.id)}>
               {item.cityName} - {item.temp}C {item.description}
             </DescriptionWrapper>
             <BtnsWrapper>
@@ -69,6 +69,7 @@ const ListItemLayout = styled.div`
 
 const DescriptionWrapper = styled.div`
   flex: auto;
+  cursor: pointer;
 `
 
 const BtnsWrapper = styled.div`

@@ -1,4 +1,9 @@
 // Type Checking State
+export interface FiveDaysForecasts {
+  dt: number,
+  icon: string;
+  temp: number;
+}
 export interface Weather {
   id: number;
   cityName: string;
@@ -11,7 +16,7 @@ export interface Weather {
   pressure: number;
   windSpeed: number;
   windDeg: number;
-  fiveDaysForecasts: [];
+  fiveDaysForecasts: FiveDaysForecasts[];
 }
 
 export interface ErrorWeather {
@@ -20,20 +25,26 @@ export interface ErrorWeather {
 }
 
 export interface WeatherState {
+  weather: Weather | null;
   weathers: Weather[];
   error: ErrorWeather;
 }
 
 // Type Checking Actions
-export const FETCH_WEATHER_BY_CITY = 'FETCH_WEATHER_BY_CITY'
+export const GET_WEAHTER_DETAIL = 'GET_WEAHTER_DETAIL'
+export const ADD_WEATHER = 'ADD_WEATHER'
 export const FETCH_ERROR = 'FETCH_ERROR'
 export const UPDATE_WEATHER = 'UPDATE_WEATHER'
 export const DELETE_WEATHER = 'DELETE_WEATHER'
 export const CLEAR_WEATHER = 'CLEAR_WEATHER'
 
 // Type Checking Action Creators
-export interface FetchWeatherInfoAction {
-  type: typeof FETCH_WEATHER_BY_CITY;
+export interface GetWeatherDetailAction {
+  type: typeof GET_WEAHTER_DETAIL;
+  payload: number;
+}
+export interface AddWeatherAction {
+  type: typeof ADD_WEATHER;
   payload: Weather;
 }
 
@@ -58,4 +69,4 @@ export interface ClearWeatherAction {
 
 
 export type WeatherActionTypes =
-  FetchWeatherInfoAction | UpdateWeatherAction | DeleteWeatherAction | ClearWeatherAction | FetchErrorAction
+GetWeatherDetailAction | AddWeatherAction | UpdateWeatherAction | DeleteWeatherAction | ClearWeatherAction | FetchErrorAction

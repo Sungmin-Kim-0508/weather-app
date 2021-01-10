@@ -1,21 +1,31 @@
 import React from 'react'
+import uniqid from 'uniqid'
 import styled from 'styled-components'
 import { IconRefresh } from '../icons'
+import { Weather } from '../store/weather/types'
 
 type WeatherDetailProps = {
-  fivedaysforecasts: { day: number, dayOfWeek: string, weatherStatus: string, temp: number }[]
+  weather: Weather | null
 }
 
-const WeatherDetail: React.FC<WeatherDetailProps> = ({ fivedaysforecasts }) => {
+const WeatherDetail: React.FC<WeatherDetailProps> = ({ weather }) => {
+  if (weather === null) {
+    return (
+      <HeaderWrapper>
+        <span>No results</span>
+      </HeaderWrapper>
+    )
+  }
+
   return (
     <>
       <HeaderWrapper>
-        <span>Halifax</span>
+        <span>{weather.cityName}</span>
         <IconRefresh />
       </HeaderWrapper>
       <DetailWrapper>
         <IconBox>
-          Weather Icon
+          {weather.icon}
         </IconBox>
         <InfoBox>
           <span>15C</span>
@@ -25,11 +35,10 @@ const WeatherDetail: React.FC<WeatherDetailProps> = ({ fivedaysforecasts }) => {
         </InfoBox>
       </DetailWrapper>
       <ForecastBox>
-        {fivedaysforecasts.map(forecast => (
-          <ForecastDetail>
-            <span>{forecast.day}</span>
-            <span>{forecast.dayOfWeek}</span>
-            <span>{forecast.weatherStatus}</span>
+        {weather.fiveDaysForecasts.map(forecast => (
+          <ForecastDetail key={uniqid()}>
+            <span>{forecast.dt}</span>
+            <span>{forecast.icon}</span>
             <span>{forecast.temp}C</span>
           </ForecastDetail>
         ))}

@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { round } from '../utils/math'
-import { Weather } from '../store/weather/types';
+import { average, round } from '../utils/math'
+import { FiveDaysForecasts, Weather } from '../store/weather/types';
 import { changeFirstLetterToUpperCase } from '../utils/stringMethods';
 
 const WEAHTER_BY_CITY_BASE_URL = 'http://api.openweathermap.org/data/2.5/weather?appid=c51223c219d6aec8cb8c5210449bd859&units=metric';
@@ -21,12 +21,17 @@ export const WeatherService = {
 
     return { id: data.id, cityName: data.name, temp: round(temp), pressure, lat, lon, windSpeed: speed, windDeg: deg, main, description: changeFirstLetterToUpperCase(description), icon, fiveDaysForecasts: [] }
   },
-  fiveDaysForecast: async (lat: number, lon: string) => {
-    const response = await axios.get(FIVE_DAYS_FORECAST_BASE_URL, {
-      params: {
-        lat, lon
-      }
+  findFiveDaysForecast: async (lat: number, lon: number): Promise<FiveDaysForecasts[]> => {
+    const { data } = await axios.get(FIVE_DAYS_FORECAST_BASE_URL, {
+      params: { lat, lon }
     })
-    console.log(response)
+    return data.daily.map((item : any) => {
+      const { min, max } = item.temp
+      return {
+        dt: item.dt,
+        temp: round(average([min, max])),
+        icon: item.weather[0].icon
+      }
+    }).slice(0, 5)
   }
 }
