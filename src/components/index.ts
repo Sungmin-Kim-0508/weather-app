@@ -3,11 +3,13 @@ import SearchFields from './SearchField'
 import LocationList from './LocationList'
 import * as Button from './Button'
 import Divider from './Divider'
+import WeatherDetail from './WeatherDetail'
 
 export {
   PanelBox,
   SearchFields,
   LocationList,
   Button,
-  Divider
+  Divider,
+  WeatherDetail
 }

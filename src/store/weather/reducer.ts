@@ -1,3 +1,4 @@
+import produce from 'immer'
 import { WeatherActionTypes, WeatherState, FETCH_WEATHER_BY_CITY, FETCH_ERROR, CLEAR_WEATHER, DELETE_WEATHER, UPDATE_WEATHER } from "./types";
 
 const defaultErrorState = { statusCode: 0, message: '' }
@@ -15,7 +16,16 @@ export default function reducer(state = initialState, action: WeatherActionTypes
         weathers: newWeathers,
         error: defaultErrorState
       }
-    case DELETE_WEATHER:
+    case UPDATE_WEATHER:
+      const updatedWeathers = produce(state.weathers, draft => {
+        const index = draft.findIndex(weather => weather.id === action.payload.id)
+        draft[index] = action.payload
+      })
+      return {
+        weathers: updatedWeathers,
+        error: defaultErrorState
+      }
+      case DELETE_WEATHER:
       return {
         weathers: state.weathers.filter(weather => weather.id !== action.payload),
         error: { ...state.error }
