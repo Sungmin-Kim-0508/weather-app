@@ -4,6 +4,7 @@ import LocationList from './LocationList'
 import * as Button from './Button'
 import Divider from './Divider'
 import WeatherDetail from './WeatherDetail'
+import IconFrame from './IconFrame'
 
 export {
   PanelBox,
@@ -11,5 +12,6 @@ export {
   LocationList,
   Button,
   Divider,
-  WeatherDetail
+  WeatherDetail,
+  IconFrame
 }

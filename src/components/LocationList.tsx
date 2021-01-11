@@ -3,7 +3,9 @@ import styled from 'styled-components'
 import uniqid from 'uniqid'
 import { Button } from '.'
 import { IconRefresh, IconX } from '../icons'
+import { getWeatherIconUrl } from '../icons/weatherIcons'
 import { Weather } from '../store/weather/types'
+import IconFrame from './IconFrame'
 
 type LocationListProps = {
   weatherAndLocations?: Weather[];
@@ -26,7 +28,8 @@ const LocationList: React.FC<LocationListProps> = ({ weatherAndLocations = [], o
         {weatherAndLocations.map(item => (
           <ListItemLayout key={uniqid()}>
             <DescriptionWrapper onClick={() => onShowDetail!(item.id)}>
-              {item.cityName} - {item.temp}C {item.description}
+              <span>{item.cityName} - {item.temp}C</span>
+              <IconFrame src={getWeatherIconUrl(item.icon, "small")} size="40px" />
             </DescriptionWrapper>
             <BtnsWrapper>
               <Button.BtnIcon style={{ marginRight: "10px" }} onClick={() => onUpdateWeather!(item.id)}>
@@ -64,12 +67,16 @@ const ListItemLayout = styled.div`
   flex-direction: row;
 
   padding: 10px 7px;
-  border-bottom: 1px solid ${getGrayColor(0.5)};;
+  border-bottom: 1px solid ${getGrayColor(0.5)};
 `
 
 const DescriptionWrapper = styled.div`
   flex: auto;
   cursor: pointer;
+
+  :hover {
+    background-color: ${getGrayColor(0.5)};
+  }
 `
 
 const BtnsWrapper = styled.div`

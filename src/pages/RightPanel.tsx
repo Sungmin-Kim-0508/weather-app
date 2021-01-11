@@ -1,13 +1,14 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { PanelBox, WeatherDetail } from '../components/index'
-import { RootState } from '../store'
+import { useCrudWeather } from '../hooks/useCrudWeather'
 
 const RightPanel: React.FC = () => {
-  const { weather } = useSelector((state: RootState) => state.weather)
+  const { state, onUpdateForecast } = useCrudWeather()
+  const { weather } = state
+
   return (
     <PanelBox paddingX="2rem" paddingY="1rem">
-      <WeatherDetail weather={weather!} />
+      <WeatherDetail weather={weather} onUpdateForecast={onUpdateForecast} />
     </PanelBox>
   );
 }

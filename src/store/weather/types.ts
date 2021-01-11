@@ -35,13 +35,14 @@ export const GET_WEAHTER_DETAIL = 'GET_WEAHTER_DETAIL'
 export const ADD_WEATHER = 'ADD_WEATHER'
 export const FETCH_ERROR = 'FETCH_ERROR'
 export const UPDATE_WEATHER = 'UPDATE_WEATHER'
+export const UPDATE_FORECAST = 'UPDATE_FORECAST'
 export const DELETE_WEATHER = 'DELETE_WEATHER'
 export const CLEAR_WEATHER = 'CLEAR_WEATHER'
 
 // Type Checking Action Creators
 export interface GetWeatherDetailAction {
   type: typeof GET_WEAHTER_DETAIL;
-  payload: number;
+  payload: Weather;
 }
 export interface AddWeatherAction {
   type: typeof ADD_WEATHER;
@@ -51,6 +52,11 @@ export interface AddWeatherAction {
 export interface FetchErrorAction {
   type: typeof FETCH_ERROR;
   payload: ErrorWeather
+}
+
+export interface UpdateForecastAction {
+  type: typeof UPDATE_FORECAST;
+  payload: FiveDaysForecasts[]
 }
 
 export interface UpdateWeatherAction {
@@ -69,4 +75,4 @@ export interface ClearWeatherAction {
 
 
 export type WeatherActionTypes =
-GetWeatherDetailAction | AddWeatherAction | UpdateWeatherAction | DeleteWeatherAction | ClearWeatherAction | FetchErrorAction
+GetWeatherDetailAction | AddWeatherAction | UpdateWeatherAction | UpdateForecastAction | DeleteWeatherAction | ClearWeatherAction | FetchErrorAction

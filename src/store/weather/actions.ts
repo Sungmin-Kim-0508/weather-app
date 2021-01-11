@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { WeatherActionTypes, FETCH_ERROR, ADD_WEATHER, CLEAR_WEATHER, DELETE_WEATHER, UPDATE_WEATHER, GET_WEAHTER_DETAIL } from './types'
+import { WeatherActionTypes, FETCH_ERROR, ADD_WEATHER, CLEAR_WEATHER, DELETE_WEATHER, UPDATE_WEATHER, GET_WEAHTER_DETAIL, UPDATE_FORECAST, Weather, FiveDaysForecasts } from './types'
 import { WeatherService } from '../../services'
 import { toastifyNotification } from "../../utils/toastify";
 
@@ -15,23 +15,21 @@ const dispatchFetchError = (dispatch: Dispatch<WeatherActionTypes>, error: any) 
   toastifyNotification.error("Failed to add. " + message)
 }
 
-export const readWeatherDetail = (id : number) => (dispatch: Dispatch<WeatherActionTypes>) => {
+export const readWeatherDetail = (id : number) => async (dispatch: Dispatch<WeatherActionTypes>) => {
+  const weather = await WeatherService.getWeatherDetails({ cityId: id });
   dispatch({
     type: GET_WEAHTER_DETAIL,
-    payload: id
+    payload: weather as Weather
   })
 }
 
 export const fetchWeathersBy = ({ cityName, cityId } : { cityName?: string, cityId?: number }) => async (dispatch: Dispatch<WeatherActionTypes>) => {
   try {
-    const data = await WeatherService.findWeatherBy({ cityName, cityId });
-    const fiveDaysForecasts = await WeatherService.findFiveDaysForecast(data.lat, data.lon)
+    const weather = await WeatherService.getWeatherDetails({ cityName, cityId });
+
     dispatch({
       type: ADD_WEATHER,
-      payload: {
-        ...data,
-        fiveDaysForecasts
-      }
+      payload: weather as Weather
     })
   } catch (error) {
     if (error === undefined) {
@@ -47,6 +45,21 @@ export const updateWeather = (id: number) => async (dispatch: Dispatch<WeatherAc
     dispatch({
       type: UPDATE_WEATHER,
       payload: data
+    })
+  } catch (error) {
+    if (error === undefined) {
+      throw error
+    }
+    dispatchFetchError(dispatch, error)
+  }
+}
+
+export const updateForecast = (id: number) => async (dispatch: Dispatch<WeatherActionTypes>) => {
+  try {
+    const forecasts = await WeatherService.getWeatherDetails({ cityId: id }, true)
+    dispatch({
+      type: UPDATE_FORECAST,
+      payload: forecasts as FiveDaysForecasts[]
     })
   } catch (error) {
     if (error === undefined) {

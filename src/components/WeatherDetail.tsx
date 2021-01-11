@@ -1,14 +1,19 @@
 import React from 'react'
 import uniqid from 'uniqid'
 import styled from 'styled-components'
+import IconFrame from './IconFrame'
 import { IconRefresh } from '../icons'
 import { Weather } from '../store/weather/types'
+import { Button } from '.'
+import { getWeatherIconUrl } from '../icons/weatherIcons'
+import { convertUnixToTime } from '../utils/time'
 
 type WeatherDetailProps = {
-  weather: Weather | null
+  weather: Weather | null;
+  onUpdateForecast?: (id: number) => void;
 }
 
-const WeatherDetail: React.FC<WeatherDetailProps> = ({ weather }) => {
+const WeatherDetail: React.FC<WeatherDetailProps> = ({ weather, onUpdateForecast }) => {
   if (weather === null) {
     return (
       <HeaderWrapper>
@@ -21,24 +26,28 @@ const WeatherDetail: React.FC<WeatherDetailProps> = ({ weather }) => {
     <>
       <HeaderWrapper>
         <span>{weather.cityName}</span>
-        <IconRefresh />
+        <Button.BtnIcon onClick={() => onUpdateForecast!(weather.id)}>
+          <IconRefresh />
+        </Button.BtnIcon>
       </HeaderWrapper>
       <DetailWrapper>
         <IconBox>
-          {weather.icon}
+          <IconFrame src={getWeatherIconUrl(weather.icon, "large")} size="100px" />
         </IconBox>
         <InfoBox>
-          <span>15C</span>
-          <span>Clear Sky</span>
-          <span>Wind: 3ms 160 deg</span>
-          <span>Pressure 1024</span>
+          <span>{weather.temp}C</span>
+          <span>{weather.description}</span>
+          <span>Wind: {weather.windSpeed}ms {weather.windDeg} deg</span>
+          <span>Pressure {weather.pressure}</span>
         </InfoBox>
       </DetailWrapper>
       <ForecastBox>
         {weather.fiveDaysForecasts.map(forecast => (
           <ForecastDetail key={uniqid()}>
-            <span>{forecast.dt}</span>
-            <span>{forecast.icon}</span>
+            {convertUnixToTime(forecast.dt, "DD ddd").split(' ').map(word => (
+              <span key={uniqid()}>{word}</span>
+            ))}
+            <IconFrame src={getWeatherIconUrl(forecast.icon, "small")} size="50px" isCenter={true} />
             <span>{forecast.temp}C</span>
           </ForecastDetail>
         ))}
