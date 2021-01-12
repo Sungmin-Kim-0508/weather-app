@@ -31,14 +31,14 @@ const LocationList: React.FC<LocationListProps> = ({ weatherAndLocations = [], o
               <span>{item.cityName} - {item.temp}C</span>
               <IconFrame src={getWeatherIconUrl(item.icon, "small")} size="40px" />
             </DescriptionWrapper>
-            <BtnsWrapper>
+            <div>
               <Button.BtnIcon style={{ marginRight: "10px" }} onClick={() => onUpdateWeather!(item.id)}>
                 <IconRefresh />
               </Button.BtnIcon>
               <Button.BtnIcon onClick={() => onDeleteWeather!(item.id)}>
                 <IconX />
               </Button.BtnIcon>
-            </BtnsWrapper>
+            </div>
           </ListItemLayout>
         ))}
       </div>
@@ -68,18 +68,18 @@ const ListItemLayout = styled.div`
 
   padding: 10px 7px;
   border-bottom: 1px solid ${getGrayColor(0.5)};
-`
-
-const DescriptionWrapper = styled.div`
-  flex: auto;
-  cursor: pointer;
 
   :hover {
     background-color: ${getGrayColor(0.5)};
   }
 `
 
-const BtnsWrapper = styled.div`
+const DescriptionWrapper = styled.div`
+  flex: auto;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
 `
 
 export default LocationList

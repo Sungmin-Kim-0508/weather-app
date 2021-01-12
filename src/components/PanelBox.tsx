@@ -19,6 +19,7 @@ const PanelBox: React.FC<PanelBoxProps> = ({ children, paddingY, paddingX }) => 
 const Box = styled.div<PanelBoxProps>`
   padding: ${props => props.paddingY} ${props => props.paddingX};
   border: 2.5px solid;
+  height: calc(100vh - 70px);
 `
 
 export default PanelBox

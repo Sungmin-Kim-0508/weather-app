@@ -7,7 +7,7 @@ const RightPanel: React.FC = () => {
   const { weather } = state
 
   return (
-    <PanelBox paddingX="2rem" paddingY="1rem">
+    <PanelBox paddingX="3rem" paddingY="10px">
       <WeatherDetail weather={weather} onUpdateForecast={onUpdateForecast} />
     </PanelBox>
   );

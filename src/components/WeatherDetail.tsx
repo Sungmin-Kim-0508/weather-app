@@ -32,13 +32,13 @@ const WeatherDetail: React.FC<WeatherDetailProps> = ({ weather, onUpdateForecast
       </HeaderWrapper>
       <DetailWrapper>
         <IconBox>
-          <IconFrame src={getWeatherIconUrl(weather.icon, "large")} size="100px" />
+          <IconFrame src={getWeatherIconUrl(weather.icon, "large")} size="250px" isCenter={true} />
         </IconBox>
         <InfoBox>
-          <span>{weather.temp}C</span>
-          <span>{weather.description}</span>
-          <span>Wind: {weather.windSpeed}ms {weather.windDeg} deg</span>
-          <span>Pressure {weather.pressure}</span>
+          <Info>{weather.temp}C</Info>
+          <Info>{weather.description}</Info>
+          <Info>Wind: {weather.windSpeed}ms {weather.windDeg} deg</Info>
+          <Info>Pressure {weather.pressure}</Info>
         </InfoBox>
       </DetailWrapper>
       <ForecastBox>
@@ -77,6 +77,10 @@ const InfoBox = styled.div`
   display: flex;
   flex-direction: column;
   flex: auto;
+`
+
+const Info = styled.span`
+  margin-bottom: 60px;
 `
 
 const ForecastBox = styled.div`
