@@ -46,6 +46,7 @@ export const updateWeather = (id: number) => async (dispatch: Dispatch<WeatherAc
       type: UPDATE_WEATHER,
       payload: data
     })
+    toastifyNotification.success(`Updated ${data.cityName}'s weather!`)
   } catch (error) {
     if (error === undefined) {
       throw error
@@ -61,6 +62,7 @@ export const updateForecast = (id: number) => async (dispatch: Dispatch<WeatherA
       type: UPDATE_FORECAST,
       payload: forecasts as FiveDaysForecasts[]
     })
+    toastifyNotification.success("Updated forecasts." )
   } catch (error) {
     if (error === undefined) {
       throw error
