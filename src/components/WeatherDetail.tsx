@@ -77,6 +77,8 @@ const InfoBox = styled.div`
   display: flex;
   flex-direction: column;
   flex: auto;
+
+  font-size: 20px;
 `
 
 const Info = styled.span`
