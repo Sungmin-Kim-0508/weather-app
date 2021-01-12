@@ -20,7 +20,6 @@ export const useCrudWeather = () => {
   }
 
   const onUpdateForecast = () => {
-    // console.log(id)
     dispatch(updateForecast())
   }
 
