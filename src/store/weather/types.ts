@@ -5,7 +5,8 @@ export interface FiveDaysForecasts {
   temp: number;
 }
 export interface Weather {
-  id: number;
+  id: string;
+  cityId: number;
   cityName: string;
   main: string;
   description: string;
@@ -66,7 +67,7 @@ export interface UpdateWeatherAction {
 
 export interface DeleteWeatherAction {
   type: typeof DELETE_WEATHER;
-  payload: number;
+  payload: string;
 }
 
 export interface ClearWeatherAction {

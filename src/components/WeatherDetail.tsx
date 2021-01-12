@@ -10,7 +10,7 @@ import { convertUnixToTime } from '../utils/time'
 
 type WeatherDetailProps = {
   weather: Weather | null;
-  onUpdateForecast?: (id: number) => void;
+  onUpdateForecast?: () => void;
 }
 
 const WeatherDetail: React.FC<WeatherDetailProps> = ({ weather, onUpdateForecast }) => {
@@ -26,7 +26,7 @@ const WeatherDetail: React.FC<WeatherDetailProps> = ({ weather, onUpdateForecast
     <>
       <HeaderWrapper>
         <span>{weather.cityName}</span>
-        <Button.BtnIcon onClick={() => onUpdateForecast!(weather.id)}>
+        <Button.BtnIcon onClick={() => onUpdateForecast!()}>
           <IconRefresh />
         </Button.BtnIcon>
       </HeaderWrapper>

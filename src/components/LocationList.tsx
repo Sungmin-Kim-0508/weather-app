@@ -9,9 +9,9 @@ import IconFrame from './IconFrame'
 
 type LocationListProps = {
   weatherAndLocations?: Weather[];
-  onShowDetail?: (id: number) => void;
-  onUpdateWeather?: (id: number) => void
-  onDeleteWeather?: (id: number) => void
+  onShowDetail?: (id: string) => void;
+  onUpdateWeather?: (id: string) => void
+  onDeleteWeather?: (id: string) => void
 }
 
 const LocationList: React.FC<LocationListProps> = ({ weatherAndLocations = [], onShowDetail, onUpdateWeather, onDeleteWeather }) => {

@@ -2,6 +2,7 @@ import { Dispatch } from "redux";
 import { WeatherActionTypes, FETCH_ERROR, ADD_WEATHER, CLEAR_WEATHER, DELETE_WEATHER, UPDATE_WEATHER, GET_WEAHTER_DETAIL, UPDATE_FORECAST, Weather, FiveDaysForecasts } from './types'
 import { WeatherService } from '../../services'
 import { toastifyNotification } from "../../utils/toastify";
+import { RootState } from "..";
 
 const dispatchFetchError = (dispatch: Dispatch<WeatherActionTypes>, error: any) => {
   const { status, data: { message } } = error.response
@@ -15,11 +16,18 @@ const dispatchFetchError = (dispatch: Dispatch<WeatherActionTypes>, error: any) 
   toastifyNotification.error("Failed to add. " + message)
 }
 
-export const readWeatherDetail = (id : number) => async (dispatch: Dispatch<WeatherActionTypes>) => {
-  const weather = await WeatherService.getWeatherDetails({ cityId: id });
+const findWeatherById = (getState: () => RootState, id: string) => {
+  const { weathers } = getState().weather
+  return weathers.find(item => item.id === id)
+}
+
+export const readWeatherDetail = (id : string) => async (dispatch: Dispatch<WeatherActionTypes>, getState: () => RootState) => {
+  const weather = findWeatherById(getState, id)
+
+  const data = await WeatherService.getWeatherDetails({ cityId: weather?.cityId });
   dispatch({
     type: GET_WEAHTER_DETAIL,
-    payload: weather as Weather
+    payload: data as Weather
   })
 }
 
@@ -39,9 +47,11 @@ export const fetchWeathersBy = ({ cityName, cityId } : { cityName?: string, city
   }
 }
 
-export const updateWeather = (id: number) => async (dispatch: Dispatch<WeatherActionTypes>) => {
+export const updateWeather = (id: string) => async (dispatch: Dispatch<WeatherActionTypes>, getState: () => RootState) => {
   try {
-    const data = await WeatherService.findWeatherBy({ cityId: id })
+    const weather = findWeatherById(getState, id)
+    
+    const data = await WeatherService.findWeatherBy({ cityId: weather?.cityId })
     dispatch({
       type: UPDATE_WEATHER,
       payload: data
@@ -55,9 +65,10 @@ export const updateWeather = (id: number) => async (dispatch: Dispatch<WeatherAc
   }
 }
 
-export const updateForecast = (id: number) => async (dispatch: Dispatch<WeatherActionTypes>) => {
+export const updateForecast = () => async (dispatch: Dispatch<WeatherActionTypes>, getState: () => RootState) => {
   try {
-    const forecasts = await WeatherService.getWeatherDetails({ cityId: id }, true)
+    const { weather } = getState().weather
+    const forecasts = await WeatherService.getWeatherDetails({ cityId: weather?.cityId }, true)
     dispatch({
       type: UPDATE_FORECAST,
       payload: forecasts as FiveDaysForecasts[]
@@ -71,7 +82,7 @@ export const updateForecast = (id: number) => async (dispatch: Dispatch<WeatherA
   }
 }
 
-export const deleteWeather = (id: number) => (dispatch: Dispatch<WeatherActionTypes>) => {
+export const deleteWeather = (id: string) => (dispatch: Dispatch<WeatherActionTypes>) => {
   dispatch({
     type: DELETE_WEATHER,
     payload: id

@@ -15,19 +15,20 @@ export const useCrudWeather = () => {
     dispatch(fetchWeathersBy({ cityName }))
   }
 
-  const onUpdateWeather = (id: number) => {
+  const onUpdateWeather = (id: string) => {
     dispatch(updateWeather(id))
   }
 
-  const onUpdateForecast = (id: number) => {
-    dispatch(updateForecast(id))
+  const onUpdateForecast = () => {
+    // console.log(id)
+    dispatch(updateForecast())
   }
 
-  const onDeleteWeather = (id: number) => {
+  const onDeleteWeather = (id: string) => {
     dispatch(deleteWeather(id))
   }
 
-  const onShowDetail = (id: number) => {
+  const onShowDetail = (id: string) => {
     dispatch(readWeatherDetail(id))
   }
 

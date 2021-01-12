@@ -1,4 +1,5 @@
 import axios from 'axios'
+import uniqid from 'uniqid'
 import { average, round } from '../utils/math'
 import { FiveDaysForecasts, Weather } from '../store/weather/types';
 import { changeFirstLetterToUpperCase } from '../utils/stringMethods';
@@ -24,7 +25,7 @@ export const WeatherService = {
     const { speed, deg } = weather.wind
     const { main, description, icon } = weather.weather[0]
 
-    return { id: weather.id, cityName: weather.name, temp: round(temp), pressure, lat, lon, windSpeed: round(speed), windDeg: deg, main, description: changeFirstLetterToUpperCase(description), icon, fiveDaysForecasts: [] }
+    return { id: uniqid(), cityId: weather.id, cityName: weather.name, temp: round(temp), pressure, lat, lon, windSpeed: round(speed), windDeg: deg, main, description: changeFirstLetterToUpperCase(description), icon, fiveDaysForecasts: [] }
   },
   findFiveDaysForecast: async (lat: number, lon: number): Promise<FiveDaysForecasts[]> => {
     const { data: weather } = await axios.get(FIVE_DAYS_FORECAST_BASE_URL, {
