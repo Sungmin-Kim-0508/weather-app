@@ -9,9 +9,9 @@ interface WeatherParams {
   cityId?: number
 }
 
-const WEAHTER_BY_CITY_BASE_URL = 'http://api.openweathermap.org/data/2.5/weather?appid=c51223c219d6aec8cb8c5210449bd859&units=metric';
+const WEAHTER_BY_CITY_BASE_URL = 'https://api.openweathermap.org/data/2.5/weather?appid=c51223c219d6aec8cb8c5210449bd859&units=metric';
 
-const FIVE_DAYS_FORECAST_BASE_URL = 'http://api.openweathermap.org/data/2.5/onecall?appid=c51223c219d6aec8cb8c5210449bd859&units=metric&exclude=current,minutely,hourly,alerts&lat=44.6453&lon=-63.5724'
+const FIVE_DAYS_FORECAST_BASE_URL = 'https://api.openweathermap.org/data/2.5/onecall?appid=c51223c219d6aec8cb8c5210449bd859&units=metric&exclude=current,minutely,hourly,alerts&lat=44.6453&lon=-63.5724'
 
 export const WeatherService = {
   findWeatherBy: async ({ cityName, cityId } : WeatherParams): Promise<Weather> => {
